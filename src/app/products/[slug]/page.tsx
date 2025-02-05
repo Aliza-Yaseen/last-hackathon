@@ -1,142 +1,415 @@
+// import Image from "next/image";
+// import { Button } from "@/components/ui/button";
+// import ProductNotFound from "@/components/productnotfound";
+// import { Badge } from "@/components/ui/badge";
+// import { client } from "@/sanity/lib/client";
+// import Navbar from "@/components/navbar";
+// import Footer from "@/components/pages/footer";
+
+// export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+//   try {
+//     const singlePageQuery = `
+//       *[_type == "products" && slug.current == $slug][0]{
+//         _id,
+//         title,
+//         price,
+//         price_id,
+//         priceWithoutDiscount,
+//         badge,
+//         "imageUrl": image.asset->url,
+//         category->{
+//           _id,
+//           title
+//         },
+//         description,
+//         inventory,
+//         tags
+//       }
+//     `;
+
+//     const product = await client.fetch(singlePageQuery, {
+//       slug: (await params).slug,
+//     });
+
+//     if (!product) {
+//       return <ProductNotFound />;
+//     }
+
+//     return (
+//       <div className="overflow-x-hidden">
+//         <Navbar />
+//         <div className="w-full bg-background py-10">
+//           <div className="max-w-[1500px] mx-auto px-4">
+//             <div className="grid md:grid-cols-2 gap-8">
+//               {/* Product Image */}
+//               {product.imageUrl ? (
+//                 <div className="flex justify-center items-center w-full">
+//                   <Image
+//                     src={product.imageUrl}
+//                     alt={product.title}
+//                     layout="intrinsic"
+//                     width={500}
+//                     height={500}
+//                     quality={100}
+//                     className="object-contain rounded-md max-w-full h-auto"
+//                   />
+//                 </div>
+//               ) : (
+//                 <p className="text-gray-500 text-center md:text-left">Image not available</p>
+//               )}
+
+//               {/* Product Details */}
+//               <div className="flex flex-col gap-6 md:gap-8 w-full lg:w-[90%] justify-center items-center md:items-start text-center md:text-left">
+//                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold">
+//                   {product.title}
+//                 </h1>
+
+//                 <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+//                   <Badge className="bg-second hover:bg-hover px-4 py-2 rounded-2xl text-black">
+//                     ${product.price} USD
+//                   </Badge>
+//                   {product.inventory === 0 ? (
+//                     <Badge className="bg-red-500 px-4 py-2 rounded-2xl text-white">
+//                       Out of Stock
+//                     </Badge>
+//                   ) : (
+//                     <Badge className="bg-green-500 px-4 py-2 rounded-2xl text-white">
+//                       {product.inventory === 1 ? "Only 1 left!" : "In Stock"}
+//                     </Badge>
+//                   )}
+//                 </div>
+
+//                 <p className="text-gray-600">{product.description}</p>
+
+//                 {/* Simplified Buttons */}
+//                 <div className="flex flex-col md:flex-row gap-4 items-center">
+//                   <Button variant="default">Add to Wishlist</Button>
+//                   {product.inventory > 0 ? (
+//                     <Button variant="secondary">Add to Cart</Button>
+//                   ) : (
+//                     <Button variant="secondary" disabled>
+//                       Out of Stock
+//                     </Button>
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//         <Footer />
+//       </div>
+//     );
+//   } catch (error) {
+//     console.error("Error fetching product:", error);
+//     return (
+//       <div className="w-full bg-background py-10">
+//         <div className="max-w-[1500px] mx-auto px-4">
+//           <p className="text-center text-red-500">
+//             An error occurred while loading the product. Please try again later.
+//           </p>
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+
+
+// import Image from "next/image";
+// import { Button } from "@/components/ui/button";
+// import ProductNotFound from "@/components/productnotfound";
+// import { Badge } from "@/components/ui/badge";
+// import { client } from "@/sanity/lib/client";
+// import Navbar from "@/components/navbar";
+// import Footer from "@/components/pages/footer";
+
+// export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+//   try {
+//     // Query to fetch product based on slug
+//     const singlePageQuery = `
+//       *[_type == "products" && slug.current == $slug][0]{
+//         _id,
+//         title,
+//         price,
+//         price_id,
+//         priceWithoutDiscount,
+//         badge,
+//         "imageUrl": image.asset->url,
+//         category->{
+//           _id,
+//           title
+//         },
+//         description,
+//         inventory,
+//         tags
+//       }
+//     `;
+
+//     // Fetch the product based on the slug
+//     const product = await client.fetch(singlePageQuery, {
+//       slug: (await params).slug,  // Extract the slug from the URL params
+//     });
+
+//     if (!product) {
+//       return <ProductNotFound />;
+//     }
+
+//     return (
+//       <div className="overflow-x-hidden">
+//         <Navbar />
+//         <div className="w-full bg-background py-10">
+//           <div className="max-w-[1500px] mx-auto px-4">
+//             <div className="grid md:grid-cols-2 gap-8">
+//               {/* Product Image */}
+//               {product.imageUrl ? (
+//                 <div className="flex justify-center items-center w-full">
+//                   <Image
+//                     src={product.imageUrl}
+//                     alt={product.title}
+//                     layout="intrinsic"
+//                     width={500}
+//                     height={500}
+//                     quality={100}
+//                     className="object-contain rounded-md max-w-full h-auto"
+//                   />
+//                 </div>
+//               ) : (
+//                 <p className="text-gray-500 text-center md:text-left">Image not available</p>
+//               )}
+
+//               {/* Product Details */}
+//               <div className="flex flex-col gap-6 md:gap-8 w-full lg:w-[90%] justify-center items-center md:items-start text-center md:text-left">
+//                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold">
+//                   {product.title}
+//                 </h1>
+
+//                 <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+//                   <Badge className="bg-second hover:bg-hover px-4 py-2 rounded-2xl text-black">
+//                     ${product.price} USD
+//                   </Badge>
+//                   {product.inventory === 0 ? (
+//                     <Badge className="bg-red-500 px-4 py-2 rounded-2xl text-white">
+//                       Out of Stock
+//                     </Badge>
+//                   ) : (
+//                     <Badge className="bg-green-500 px-4 py-2 rounded-2xl text-white">
+//                       {product.inventory === 1 ? "Only 1 left!" : "In Stock"}
+//                     </Badge>
+//                   )}
+//                 </div>
+
+//                 <p className="text-gray-600">{product.description}</p>
+
+//                 {/* Add to Cart Button */}
+//                 <div className="flex flex-col md:flex-row gap-4 items-center">
+//                   <Button variant="default">Add to Wishlist</Button>
+//                   {product.inventory > 0 ? (
+//                     <Button variant="secondary">Add to Cart</Button>
+//                   ) : (
+//                     <Button variant="secondary" disabled>
+//                       Out of Stock
+//                     </Button>
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//         <Footer />
+//       </div>
+//     );
+//   } catch (error) {
+//     console.error("Error fetching product:", error);
+//     return (
+//       <div className="w-full bg-background py-10">
+//         <div className="max-w-[1500px] mx-auto px-4">
+//           <p className="text-center text-red-500">
+//             An error occurred while loading the product. Please try again later.
+//           </p>
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+
+
+
+// src/app/products/[slug]/page.tsx
+"use client"; // Mark this file as a client component
+
+import React from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { client } from "@/sanity/lib/client";
+import { useCart } from "@/components/cartcomponent/cart"; // Import the useCart hook
 import Navbar from "@/components/navbar";
 import Footer from "@/components/pages/footer";
-import Image from "next/image";
 
-interface Props {
-  params: {
-    slug: string;
-  };
-}
+// Using React.use() to unwrap the params promise
+export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { addToCart } = useCart(); // Use the addToCart function from context
 
-const ProductPage = async ({ params }: Props) => {
-  console.log('params:', params); // Debugging the params object
-
-  // If slug is missing, display an error message
-  if (!params?.slug) {
-    return (
-      <div>
-        <Navbar />
-        <div className="w-screen bg-background py-10">
-          <div className="max-w-[1500px] mx-auto px-4">
-            <p className="text-center text-red-500">
-              Invalid product request. Please check the URL.
-            </p>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
+  interface Product {
+    _id: string;
+    title: string;
+    price: number;
+    price_id: string;
+    priceWithoutDiscount: number;
+    badge: string;
+    imageUrl: string;
+    category: {
+      _id: string;
+      title: string;
+    };
+    description: string;
+    inventory: number;
+    tags: string[];
   }
 
-  // Fetch the product data from Sanity based on the slug
-  const singlePageQuery = `
-    *[_type == "products" && slug.current == $slug][0]{
-      _id,
-      title,
-      "slug": slug.current,
-      price,
-      priceWithoutDiscount,
-      badge,
-      "imageUrl": image.asset->url,
-      category->{
-        _id,
-        title
-      },
-      description,
-      inventory,
-      tags
+  const [product, setProduct] = React.useState<Product | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+  const [slug, setSlug] = React.useState<string>("");
+
+  // Unwrapping the params slug asynchronously
+  React.useEffect(() => {
+    const fetchParams = async () => {
+      const resolvedParams = await params; // Resolve the promise to get the actual params object
+      setSlug(resolvedParams.slug); // Extract slug from the resolved params
+    };
+
+    fetchParams();
+  }, [params]);
+
+  React.useEffect(() => {
+    if (slug) {
+      const fetchProduct = async () => {
+        try {
+          const singlePageQuery = `
+            *[_type == "products" && slug.current == $slug][0]{
+              _id,
+              title,
+              price,
+              price_id,
+              priceWithoutDiscount,
+              badge,
+              "imageUrl": image.asset->url,
+              category->{
+                _id,
+                title
+              },
+              description,
+              inventory,
+              tags
+            }
+          `;
+
+          const product = await client.fetch(singlePageQuery, {
+            slug: slug,
+          });
+
+          if (!product) {
+            setError("Product not found");
+          } else {
+            setProduct(product);
+          }
+        } catch (error) {
+          console.error("Error fetching product:", error);
+          setError("An error occurred while loading the product. Please try again later.");
+        }
+      };
+
+      fetchProduct();
     }
-  `;
+  }, [slug]);
 
-  const product = await client.fetch(singlePageQuery, {
-    slug: params.slug,
-  });
+  const handleAddToCart = () => {
+    if (product) {
+      const cartItem = {
+        id: product._id,
+        name: product.title,
+        price: product.price,
+        quantity: 1,
+        image: product.imageUrl,
+      };
+      addToCart(cartItem); // Add product to the cart
+    }
+  };
 
-  // If no product is found, show an error message
-  if (!product) {
+  if (error) {
     return (
-      <div>
-        <Navbar />
-        <div className="w-screen bg-background py-10">
-          <div className="max-w-[1500px] mx-auto px-4">
-            <p className="text-center text-red-500">
-              Product not found. Please check the URL.
-            </p>
-          </div>
+      <div className="w-full bg-background py-10">
+        <div className="max-w-[1500px] mx-auto px-4">
+          <p className="text-center text-red-500">{error}</p>
         </div>
-        <Footer />
       </div>
     );
   }
 
-  // Render the product details
+  if (!product) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div>
       <Navbar />
-      <div className="w-screen bg-background py-10">
-        <div className="max-w-[1500px] mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center space-x-10">
-            <div className="w-full lg:w-1/2">
-              <Image
-                src={product.imageUrl}
-                alt={product.title}
-                width={500}
-                height={500}
-                className="w-full h-auto object-cover rounded-lg"
-              />
-            </div>
+      <div className="overflow-x-hidden">
+        <div className="w-full bg-background py-10">
+          <div className="max-w-[1500px] mx-auto px-4">
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Product Image */}
+              {product.imageUrl ? (
+                <div className="flex justify-center items-center w-full">
+                  <Image
+                    src={product.imageUrl}
+                    alt={product.title}
+                    layout="intrinsic"
+                    width={500}
+                    height={500}
+                    quality={100}
+                    className="object-contain rounded-md max-w-full h-auto"
+                  />
+                </div>
+              ) : (
+                <p className="text-gray-500 text-center md:text-left">Image not available</p>
+              )}
 
-            <div className="w-full lg:w-1/2">
-              <h1 className="text-3xl font-semibold">{product.title}</h1>
-              <p className="text-xl text-gray-600 my-4">{product.description}</p>
+              {/* Product Details */}
+              <div className="flex flex-col gap-6 md:gap-8 w-full lg:w-[90%] justify-center items-center md:items-start text-center md:text-left">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold">
+                  {product.title}
+                </h1>
 
-              <div className="my-6">
-                <span className="text-2xl font-bold">${product.price}</span>
-                {product.priceWithoutDiscount && (
-                  <span className="text-lg line-through ml-4 text-gray-500">
-                    ${product.priceWithoutDiscount}
-                  </span>
-                )}
+                <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+                  <Badge className="bg-second hover:bg-hover px-4 py-2 rounded-2xl text-black">
+                    ${product.price} USD
+                  </Badge>
+                  {product.inventory === 0 ? (
+                    <Badge className="bg-red-500 px-4 py-2 rounded-2xl text-white">
+                      Out of Stock
+                    </Badge>
+                  ) : (
+                    <Badge className="bg-green-500 px-4 py-2 rounded-2xl text-white">
+                      {product.inventory === 1 ? "Only 1 left!" : "In Stock"}
+                    </Badge>
+                  )}
+                </div>
+
+                <p className="text-gray-600">{product.description}</p>
+
+                {/* Add to Cart Button */}
+                <div className="flex flex-col md:flex-row gap-4 items-center">
+                  <Button variant="default">Add to Wishlist</Button>
+                  {product.inventory > 0 ? (
+                    <Button variant="secondary" onClick={handleAddToCart}>
+                      Add to Cart
+                    </Button>
+                  ) : (
+                    <Button variant="secondary" disabled>
+                      Out of Stock
+                    </Button>
+                  )}
+                </div>
               </div>
-
-              <div className="space-x-4 my-6">
-                <span
-                  className={`text-sm px-3 py-1 rounded-md ${
-                    product.inventory > 0 ? 'bg-green-200' : 'bg-red-200'
-                  }`}>
-                  {product.inventory > 0 ? 'In Stock' : 'Out of Stock'}
-                </span>
-
-                {product.badge && (
-                  <span className="text-sm font-semibold px-3 py-1 bg-blue-200 rounded-md">
-                    {product.badge}
-                  </span>
-                )}
-              </div>
-
-              <div className="my-4">
-                <button
-                  disabled={product.inventory === 0}
-                  className={`py-2 px-4 text-white rounded-md ${
-                    product.inventory > 0 ? 'bg-blue-600' : 'bg-gray-400 cursor-not-allowed'
-                  }`}>
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-12">
-            <h2 className="text-2xl font-semibold">Tags</h2>
-            <div className="flex flex-wrap mt-4 space-x-4">
-              {product.tags?.map((tag: string, index: number) => (
-                <span
-                  key={index}
-                  className="px-4 py-2 text-sm bg-gray-200 rounded-full">
-                  {tag}
-                </span>
-              ))}
             </div>
           </div>
         </div>
@@ -144,6 +417,4 @@ const ProductPage = async ({ params }: Props) => {
       <Footer />
     </div>
   );
-};
-
-export default ProductPage;
+}

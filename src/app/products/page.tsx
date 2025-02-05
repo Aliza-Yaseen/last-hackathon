@@ -96,7 +96,7 @@
 //     </div>
 //   );
 // }
-
+import AllProducts from "@/components/Allproducts";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/pages/footer";
 import InstagramSection from "@/components/pages/insta";
@@ -109,13 +109,14 @@ export default async function ProductPage({ params }: { params?: { slug?: string
     return (
       <div>
         <Navbar />
-        <div className="w-screen bg-background py-10">
+        {/* <div className="w-screen bg-background py-10">
           <div className="max-w-[1500px] mx-auto px-4">
             <p className="text-center text-red-500">
               Invalid product request. Please check the URL.
             </p>
           </div>
-        </div>
+        </div> */}
+        <AllProducts/>
         <Footer />
       </div>
     );
